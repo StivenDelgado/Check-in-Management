@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.CascadeType;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,7 +26,7 @@ public class CheckIn {
     @Column(name = "user_id")
     private Long user_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "check_in_type_id")
     private CheckInType checkInType;            
 
