@@ -31,10 +31,10 @@ public class CheckInType {
     private List<CheckIn> checkIns;
     
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 }

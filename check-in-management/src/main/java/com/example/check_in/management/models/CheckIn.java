@@ -43,11 +43,11 @@ public class CheckIn {
     private int dailyHours;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
 }
