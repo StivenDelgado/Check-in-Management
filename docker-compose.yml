@@ -1,0 +1,46 @@
+services:
+    #  --------------------------------------------
+    backend-check-in:
+      build:
+        context: ./check-in-management
+        dockerfile: Dockerfile
+      container_name: check-in-management
+      depends_on:
+        mysql-check-in:
+          condition: service_healthy
+      ports:
+        - "9020:8080"
+      networks:
+        - check-in
+    #  --------------------------------------------
+    mysql-check-in:
+      build:
+        context: ./MySQL
+        dockerfile: Dockerfile
+      container_name: mysql-check-in
+      volumes:
+        - ./MySQL/mysql_data:/var/lib/mysql
+      ports:
+        - "8012:3306"
+      networks:
+        - check-in
+      healthcheck:
+        test: [ "CMD","mysql", "-u", "sdgrh", "-psdgrh123*" ]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+    #  --------------------------------------------
+    adminer-check-in:
+      image: adminer
+      container_name: adminer-check-in
+      depends_on:
+        - mysql-check-in
+      ports:
+        - "9010:8080"
+      networks:
+        - check-in
+  #  --------------------------------------------
+networks:
+  check-in:
+    driver: bridge
+    name: check-in
