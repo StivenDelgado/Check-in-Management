@@ -19,21 +19,40 @@ import lombok.Data;
 @Data
 @Table(name = "check_in_type")
 public class CheckInType {
+    /**
+     * Unique identifier for the check-in type.
+     * Auto-generated using identity strategy.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "check_in_type_id")
     private Long checkInTypeId;    
 
+    /**
+     * Description of the check-in type (e.g., 'Entry', 'Exit', 'Lunch Break').
+     */
     @Column(name = "description")
     private String description;
 
+    /**
+     * List of all check-ins associated with this type.
+     * One check-in type can have many check-in records.
+     */
     @OneToMany(mappedBy = "checkInType")
     private List<CheckIn> checkIns;
     
+    /**
+     * Timestamp when the check-in type was created.
+     * Automatically set to current timestamp on creation.
+     */
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
+    /**
+     * Timestamp when the check-in type was last updated.
+     * Automatically updated when the record is modified.
+     */
     @UpdateTimestamp
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
