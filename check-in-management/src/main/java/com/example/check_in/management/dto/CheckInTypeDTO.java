@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class CheckInTypeDTO {
-    private Long id;
-    private String name; // Reemplaza con los campos reales de CheckInType
+    private Long checkInTypeId;
     private String description;
 
 }

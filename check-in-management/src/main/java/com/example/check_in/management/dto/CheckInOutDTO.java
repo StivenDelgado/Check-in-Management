@@ -3,10 +3,11 @@ package com.example.check_in.management.dto;
 import lombok.Data;
 
 @Data
-public class CheckInDTO {
+public class CheckInOutDTO {
     
     Long checkInId;
     String CheckInType;
-    String startTime;
+    String endTime;
     String weekDay;
+
 }

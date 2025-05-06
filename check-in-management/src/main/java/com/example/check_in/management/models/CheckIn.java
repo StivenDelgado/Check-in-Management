@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.CascadeType;
 import lombok.Data;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "check_in")
 public class CheckIn {
+    
     /**
      * Unique identifier for the check-in record.
      * Auto-generated using identity strategy.
@@ -25,13 +27,13 @@ public class CheckIn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "check_in_id")
-    private Long check_in_id;
+    private Long checkInId;
     
     /**
      * Identifier of the user who made the check-in.
      */
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
     /**
      * Type of check-in (e.g., entry, exit, lunch break).
@@ -44,13 +46,13 @@ public class CheckIn {
     /**
      * Start time of the check-in period.
      */
-    @Column(name = "start_time")
+    @Column(name = "start_time", columnDefinition = "TIME")
     private String startTime;
 
     /**
      * End time of the check-in period.
      */
-    @Column(name = "end_time")
+    @Column(name = "end_time", columnDefinition = "TIME DEFAULT NULL")
     private String endTime;
 
     /**

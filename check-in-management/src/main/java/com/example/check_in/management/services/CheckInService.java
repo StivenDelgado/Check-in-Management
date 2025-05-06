@@ -1,12 +1,19 @@
 package com.example.check_in.management.services;
 
-import com.example.check_in.management.dto.CheckInDTO;
-import com.example.check_in.management.dto.CheckInCreateDTO;
+import com.example.check_in.management.dto.CreateCheckInDTO;
+import com.example.check_in.management.dto.UpdateCheckInDTO;
 import com.example.check_in.management.models.CheckIn;
 import com.example.check_in.management.models.CheckInType;
 import com.example.check_in.management.repositories.CheckInRepository;
+import com.example.check_in.management.repositories.CheckInTypeRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.check_in.management.dto.CheckInDTO;
+import com.example.check_in.management.dto.CheckInOutDTO;
+import com.example.check_in.management.dto.CheckInUserDTO;
+import com.example.check_in.management.mapper.CheckInMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,28 +25,33 @@ public class CheckInService {
     @Autowired
     private CheckInRepository checkInRepository;
 
-    public List<CheckIn> findAll() {
-        return checkInRepository.findAll();
+    @Autowired
+    private CheckInTypeRepository checkInTypeRepository;
+
+    @Autowired
+    private CheckInMapper checkInMapper;
+
+    public List<CheckInUserDTO> findByUserId(Long id, String date) {
+        System.out.println("id: " + date);
+        return  checkInRepository.findByUserIdAndDate(id, date).stream().map(checkIn -> checkInMapper.toUserDTO(checkIn)).collect(Collectors.toList());
     }
 
-    public Optional<CheckIn> findById(Long id) {
-        return checkInRepository.findById(id);
+    public CheckInDTO save(CreateCheckInDTO checkIn) {
+        CheckInType checkInType = checkInTypeRepository.findById(checkIn.getCheckInTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("CheckInType not found with id: " + checkIn.getCheckInTypeId()));
+        CheckIn checkInEntity = checkInMapper.toEntity(checkIn);
+        checkInEntity.setCheckInType(checkInType);
+        return checkInMapper.toCheckInDTO(checkInRepository.save(checkInEntity));
     }
 
-    public CheckIn save(CheckIn checkIn) {
-        return checkInRepository.save(checkIn);
-    }
-
-    public Optional<CheckIn> update(Long id, CheckIn checkInDetails) {
+    public CheckInOutDTO updateCheckIn(Long id, UpdateCheckInDTO checkInDetails) {
         Optional<CheckIn> existingCheckIn = checkInRepository.findById(id);
         if (existingCheckIn.isPresent()) {
-            CheckIn updatedCheckIn = existingCheckIn.get();
-            return Optional.of(checkInRepository.save(updatedCheckIn));
+            CheckIn checkIn = existingCheckIn.get();
+            checkIn.setEndTime(checkInDetails.getEndTime());
+            return checkInMapper.tCheckInOutDTO(checkInRepository.save(checkIn));
         }
-        return Optional.empty();
+        return null;
     }
 
-    public void deleteById(Long id) {
-        checkInRepository.deleteById(id);
-    }
 }

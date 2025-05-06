@@ -1,13 +1,20 @@
 package com.example.check_in.management.controllers;
 
-import com.example.check_in.management.models.CheckIn;
+
 import com.example.check_in.management.services.CheckInService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.check_in.management.dto.CreateCheckInDTO;
+import com.example.check_in.management.dto.UpdateCheckInDTO;
+import com.example.check_in.management.dto.CheckInDTO;
+import com.example.check_in.management.dto.CheckInOutDTO;
+import com.example.check_in.management.dto.CheckInUserDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("check-in")
@@ -16,35 +23,21 @@ public class CheckInController {
     @Autowired
     private CheckInService checkInService;
 
-    @GetMapping
-    public List<CheckIn> getAllCheckIns() {
-        return checkInService.findAll();
+    @GetMapping("/{id}/{date}") 
+    public  ResponseEntity<List<CheckInUserDTO>> getCheckInByUserId(@PathVariable Long id, @PathVariable String date) {
+        List<CheckInUserDTO> checkIn = checkInService.findByUserId(id, date);
+        return checkIn != null ? ResponseEntity.ok(checkIn) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CheckIn> getCheckInById(@PathVariable Long id) {
-        Optional<CheckIn> checkIn = checkInService.findById(id);
-        return checkIn.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping("/registerCheckIn")
+    public  ResponseEntity<CheckInDTO> createCheckIn(@Valid @RequestBody CreateCheckInDTO checkIn) {
+        return  checkInService.save(checkIn) != null ? ResponseEntity.ok(checkInService.save(checkIn)) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public CheckIn createCheckIn(@RequestBody CheckIn checkIn) {
-        return checkInService.save(checkIn);
-    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CheckIn> updateCheckIn(@PathVariable Long id, @RequestBody CheckIn checkInDetails) {
-        Optional<CheckIn> updatedCheckIn = checkInService.update(id, checkInDetails);
-        return updatedCheckIn.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public CheckInOutDTO updateCheckIn(@PathVariable Long id, @RequestBody UpdateCheckInDTO checkInDetails) {
+        return checkInService.updateCheckIn(id, checkInDetails);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCheckIn(@PathVariable Long id) {
-        if (checkInService.findById(id).isPresent()) {
-            checkInService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }
