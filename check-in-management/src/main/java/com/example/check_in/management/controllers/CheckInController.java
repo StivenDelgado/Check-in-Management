@@ -30,8 +30,9 @@ public class CheckInController {
     }
 
     @PostMapping("/registerCheckIn")
-    public  ResponseEntity<CheckInDTO> createCheckIn(@Valid @RequestBody CreateCheckInDTO checkIn) {
-        return  checkInService.save(checkIn) != null ? ResponseEntity.ok(checkInService.save(checkIn)) : ResponseEntity.notFound().build();
+    public  ResponseEntity<CheckInDTO> createCheckIn(@Valid @RequestBody CreateCheckInDTO checkIn, @RequestHeader("Authorization") String authorizationHeader) {
+        CheckInDTO checkInDTO = checkInService.save(checkIn, authorizationHeader);
+        return checkInDTO != null ? ResponseEntity.ok(checkInDTO) : ResponseEntity.notFound().build();
     }
 
 

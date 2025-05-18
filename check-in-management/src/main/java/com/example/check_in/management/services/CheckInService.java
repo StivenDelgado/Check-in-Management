@@ -10,6 +10,7 @@ import com.example.check_in.management.repositories.CheckInTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.check_in.management.client.ApiClient;
 import com.example.check_in.management.dto.CheckInDTO;
 import com.example.check_in.management.dto.CheckInOutDTO;
 import com.example.check_in.management.dto.CheckInUserDTO;
@@ -31,17 +32,30 @@ public class CheckInService {
     @Autowired
     private CheckInMapper checkInMapper;
 
+    @Autowired
+    private ApiClient apiClient;
+
     public List<CheckInUserDTO> findByUserId(Long id, String date) {
         System.out.println("id: " + date);
         return  checkInRepository.findByUserIdAndDate(id, date).stream().map(checkIn -> checkInMapper.toUserDTO(checkIn)).collect(Collectors.toList());
     }
 
-    public CheckInDTO save(CreateCheckInDTO checkIn) {
+    public CheckInDTO save(CreateCheckInDTO checkIn, String authorization) {
         CheckInType checkInType = checkInTypeRepository.findById(checkIn.getCheckInTypeId())
                 .orElseThrow(() -> new IllegalArgumentException("CheckInType not found with id: " + checkIn.getCheckInTypeId()));
+
         CheckIn checkInEntity = checkInMapper.toEntity(checkIn);
+
+        System.out.println("checkInEntity: " + authorization);
+
+        Boolean employeeExists = apiClient.employeeExists(checkIn.getUserId(), authorization);
+        if (employeeExists == null || !employeeExists) {
+            throw new IllegalArgumentException("Employee does not exist or request failed");
+        }
+
         checkInEntity.setCheckInType(checkInType);
         return checkInMapper.toCheckInDTO(checkInRepository.save(checkInEntity));
+
     }
 
     public CheckInOutDTO updateCheckIn(Long id, UpdateCheckInDTO checkInDetails) {
