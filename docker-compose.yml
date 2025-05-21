@@ -9,9 +9,9 @@ services:
         mysql-check-in:
           condition: service_healthy
       ports:
-        - "9020:8080"
+        - "1118:8080"
       networks:
-        - check-in
+        - red_microservicios
     #  --------------------------------------------
     mysql-check-in:
       build:
@@ -21,9 +21,9 @@ services:
       volumes:
         - ./MySQL/mysql_data:/var/lib/mysql
       ports:
-        - "8012:3306"
+        - "1119:3306"
       networks:
-        - check-in
+        - red_microservicios
       healthcheck:
         test: [ "CMD","mysql", "-u", "sdgrh", "-psdgrh123*" ]
         interval: 30s
@@ -36,11 +36,10 @@ services:
       depends_on:
         - mysql-check-in
       ports:
-        - "9010:8080"
+        - "1120:8080"
       networks:
-        - check-in
+        - red_microservicios
   #  --------------------------------------------
 networks:
-  check-in:
-    driver: bridge
-    name: check-in
+  red_microservicios:
+    external: true
