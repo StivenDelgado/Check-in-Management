@@ -49,22 +49,22 @@ public class CheckInControllerTest {
         validCreateCheckInDTO = new CreateCheckInDTO();
         validCreateCheckInDTO.setUserId(1L);
         validCreateCheckInDTO.setCheckInTypeId(2L);
-        validCreateCheckInDTO.setStartTime("08:00");
+        validCreateCheckInDTO.setTime("08:00");
         validCreateCheckInDTO.setWeekDay("Monday");
 
         validUpdateCheckInDTO = new UpdateCheckInDTO();
-        validUpdateCheckInDTO.setEndTime("17:00");
+        validUpdateCheckInDTO.setTime("17:00");
 
         mockCheckInDTO = new CheckInDTO();
         mockCheckInDTO.setCheckInId(10L);
         mockCheckInDTO.setCheckInType("Entrada");
-        mockCheckInDTO.setStartTime("08:00");
+        mockCheckInDTO.setTime("08:00");
         mockCheckInDTO.setWeekDay("Monday");
 
         mockCheckInOutDTO = new CheckInOutDTO();
         mockCheckInOutDTO.setCheckInId(10L);
         mockCheckInOutDTO.setCheckInType("Salida");
-        mockCheckInOutDTO.setEndTime("17:00");
+        mockCheckInOutDTO.setTime("17:00");
         mockCheckInOutDTO.setWeekDay("Monday");
 
         authorization = "Bearer token";

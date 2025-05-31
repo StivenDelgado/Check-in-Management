@@ -6,6 +6,5 @@ import lombok.Data;
 public class CheckInUserDTO {
     private Long checkInId;
     private String checkInType;
-    private String startTime;
-    private String endTime;
+    private String time;
 }

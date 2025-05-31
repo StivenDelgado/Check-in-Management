@@ -7,5 +7,5 @@ import lombok.Data;
 public class UpdateCheckInDTO {
     
     @NotBlank(message = "End time is required")
-    private String endTime;
+    private String time;
 }

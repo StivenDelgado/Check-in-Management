@@ -14,7 +14,7 @@ public class CreateCheckInDTO {
     private Long checkInTypeId;
     
     @NotNull(message = "Start time is required")
-    private String startTime;
+    private String time;
 
     @NotNull(message = "Week day is required")
     private String weekDay;

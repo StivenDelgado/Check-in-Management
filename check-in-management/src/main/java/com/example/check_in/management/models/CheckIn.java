@@ -46,26 +46,13 @@ public class CheckIn {
     /**
      * Start time of the check-in period.
      */
-    @Column(name = "start_time", columnDefinition = "TIME")
-    private String startTime;
-
-    /**
-     * End time of the check-in period.
-     */
-    @Column(name = "end_time", columnDefinition = "TIME DEFAULT NULL")
-    private String endTime;
-
+    @Column(name = "time", columnDefinition = "TIME")
+    private String time;
     /**
      * Day of the week when the check-in occurred.
      */
     @Column(name = "week_day")
     private String weekDay;
-
-    /**
-     * Total number of hours worked in the day.
-     */
-    @Column(name = "daily_hours")
-    private int dailyHours;
 
     /**
      * Timestamp when the check-in record was created.
