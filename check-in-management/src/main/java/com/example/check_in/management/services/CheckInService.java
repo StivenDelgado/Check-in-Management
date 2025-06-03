@@ -62,7 +62,7 @@ public class CheckInService {
         Optional<CheckIn> existingCheckIn = checkInRepository.findById(id);
         if (existingCheckIn.isPresent()) {
             CheckIn checkIn = existingCheckIn.get();
-            checkIn.setEndTime(checkInDetails.getEndTime());
+            checkIn.setTime(checkInDetails.getTime());
             return checkInMapper.tCheckInOutDTO(checkInRepository.save(checkIn));
         }
         return null;

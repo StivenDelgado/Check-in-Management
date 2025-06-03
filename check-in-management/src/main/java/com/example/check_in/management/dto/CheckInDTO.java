@@ -7,6 +7,6 @@ public class CheckInDTO {
     
     Long checkInId;
     String CheckInType;
-    String startTime;
+    String time;
     String weekDay;
 }

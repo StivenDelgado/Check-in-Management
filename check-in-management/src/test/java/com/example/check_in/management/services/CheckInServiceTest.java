@@ -118,7 +118,7 @@ class CheckInServiceTest {
     void testUpdateCheckIn_ReturnsUpdatedDTO() {
         Long id = 1L;
         UpdateCheckInDTO updateDto = new UpdateCheckInDTO();
-        updateDto.setEndTime("17:00");
+        updateDto.setTime("17:00");
 
         CheckIn checkIn = new CheckIn();
         checkIn.setCheckInId(id);
